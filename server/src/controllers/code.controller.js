@@ -4,6 +4,7 @@ import { optimizeCode } from "../services/optimization.service.js";
 import { explainCode } from "../services/explanation.service.js";
 import { findBugs } from "../services/debug.service.js";
 import { generateTests } from "../services/testGen.service.js";
+import { reviewCode as reviewService } from "../services/review.service.js";
 import { createHistoryEntry } from "../services/history.service.js";
 
 // Translate code
@@ -193,6 +194,40 @@ export const generateUnitTests = async (req, res, next) => {
     createHistoryEntry({
       userId: req.user._id,
       type: "generate-tests",
+      inputCode: code,
+      sourceLanguage: language,
+      targetLanguage: null,
+      output: result,
+    }).catch((error) => {
+      console.error("History save failed:", error);
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Code Review & Security Audit
+export const review = async (req, res, next) => {
+  try {
+    const { code, language } = req.body;
+
+    if (!code || !language) {
+      return res.status(400).json({
+        success: false,
+        message: "code and language are required.",
+      });
+    }
+
+    const result = await reviewService(code, language);
+
+    createHistoryEntry({
+      userId: req.user._id,
+      type: "review",
       inputCode: code,
       sourceLanguage: language,
       targetLanguage: null,

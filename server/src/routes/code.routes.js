@@ -6,6 +6,7 @@ import {
   explain,
   debugCode,
   generateUnitTests,
+  review,
 } from "../controllers/code.controller.js";
 import authenticate from "../middleware/auth.middleware.js";
 
@@ -20,5 +21,6 @@ router.post("/optimize", optimize);
 router.post("/explain", explain);
 router.post("/debug", debugCode);
 router.post("/generate-tests", generateUnitTests);
+router.post("/review", review);
 
 export default router;

@@ -12,7 +12,7 @@ const historySchema = new mongoose.Schema(
     type: {
       type: String,
       enum: {
-        values: ["translate", "analyze", "optimize", "explain", "debug", "generate-tests"],
+        values: ["translate", "analyze", "optimize", "explain", "debug", "generate-tests", "review"],
         message: "{VALUE} is not a valid action type",
       },
       required: [true, "Action type is required"],

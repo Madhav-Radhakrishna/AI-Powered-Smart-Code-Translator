@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
+import CodeReviewPage from "./pages/CodeReviewPage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import "./styles/components.css";
@@ -17,6 +18,15 @@ function App() {
             <ProtectedRoute>
               <Navbar />
               <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/review"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <CodeReviewPage />
             </ProtectedRoute>
           }
         />

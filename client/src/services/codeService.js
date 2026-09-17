@@ -34,6 +34,11 @@ const generateTests = async (code, language) => {
   return response.data.data;
 };
 
+const reviewCode = async (code, language) => {
+  const response = await API.post("/code/review", { code, language });
+  return response.data.data;
+};
+
 export {
   translateCode,
   analyzeComplexity,
@@ -41,4 +46,5 @@ export {
   explainCode,
   debugCode,
   generateTests,
+  reviewCode,
 };

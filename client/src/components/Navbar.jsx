@@ -34,6 +34,12 @@ function Navbar() {
             ⚡ Workspace
           </Link>
           <Link
+            to="/review"
+            className={`navbar-link ${isActive("/review") ? "active" : ""}`}
+          >
+            🛡️ Code Review
+          </Link>
+          <Link
             to="/history"
             className={`navbar-link ${isActive("/history") ? "active" : ""}`}
           >

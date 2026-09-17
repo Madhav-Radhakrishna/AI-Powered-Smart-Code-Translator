@@ -13,6 +13,7 @@ import "../styles/history.css";
 const FILTER_TYPES = [
   { id: "all", label: "All" },
   { id: "translate", label: "Translate" },
+  { id: "review", label: "Code Review" },
   { id: "analyze", label: "Analyze" },
   { id: "optimize", label: "Optimize" },
   { id: "explain", label: "Explain" },
@@ -84,11 +85,12 @@ function HistoryPage() {
     }
   };
 
-  // Restore entry to Home Page Workspace
+  // Restore entry to Workspace
   const handleLoadInWorkspace = () => {
     if (!selectedItem) return;
 
-    navigate("/", {
+    const targetRoute = selectedItem.type === "review" ? "/review" : "/";
+    navigate(targetRoute, {
       state: {
         inputCode: selectedItem.inputCode,
         sourceLang: selectedItem.sourceLanguage || "python",

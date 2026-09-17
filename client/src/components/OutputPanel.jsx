@@ -148,6 +148,58 @@ function OutputPanel({ result, action, targetLanguage }) {
     );
   }
 
+  // 7. Code Review Audit
+  if (action === "review") {
+    const issues = result.issues || [];
+    return (
+      <div className="output-cards">
+        {result.summary && (
+          <div className="output-cards-row" style={{ gap: "8px" }}>
+            <InfoCard label="Critical" value={result.summary.critical ?? 0} />
+            <InfoCard label="High" value={result.summary.high ?? 0} />
+            <InfoCard label="Medium" value={result.summary.medium ?? 0} />
+            <InfoCard label="Low" value={result.summary.low ?? 0} />
+          </div>
+        )}
+
+        <div className="bug-report-container" style={{ marginTop: "12px" }}>
+          {issues.length === 0 ? (
+            <p className="output-explanation">✨ Code looks clean! No major security issues found.</p>
+          ) : (
+            issues.map((issue, idx) => (
+              <div className="bug-issue-card" key={idx}>
+                <div className="bug-issue-header" style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span className={`severity-tag ${(issue.severity || "Warning").toLowerCase()}`}>
+                    {issue.severity || "Medium"}
+                  </span>
+                  <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                    {issue.type || "Bug"} {issue.line ? `| Line ${issue.line}` : ""}
+                  </span>
+                </div>
+                <div className="bug-issue-desc" style={{ fontWeight: 700 }}>
+                  {issue.title || issue.issue}
+                </div>
+                <div style={{ fontSize: "12px", color: "var(--text-main)", marginTop: "4px" }}>
+                  {issue.explanation}
+                </div>
+                {issue.impact && (
+                  <div style={{ fontSize: "12px", color: "#fca5a5", marginTop: "4px" }}>
+                    <strong>Impact:</strong> {issue.impact}
+                  </div>
+                )}
+                {issue.suggestion && (
+                  <div className="bug-issue-fix" style={{ marginTop: "4px" }}>
+                    <strong>Suggestion:</strong> {issue.suggestion}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return null;
 }
 
